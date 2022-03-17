@@ -6,8 +6,6 @@ const btnAgregar = document.querySelector('#Agregar');
 const cuerporesultado = document.querySelector('#resultado');
 const arregloVeterinaria = [];
 
-
-
 /*class Propietario {
     constructor(nombre, direccion, telefono) {
         this._nombre = nombre;
@@ -57,19 +55,21 @@ btnAgrega.addEventListener('click', () => {
 btnAgregar.addEventListener('click', () => {
     //agregarFilas(llenarArreglo, cuerporesultado);
     llenarArreglo(arregloVeterinaria);
-    agregarFilas(arregloVeterinaria,cuerporesultado);
-
+    agregarFilas(arregloVeterinaria, cuerporesultado);
+    eliminar(arregloVeterinaria, cuerporesultado);
 });
 
 const llenarArreglo = (arregloVeterinaria) => {
     const tiposAnimales = document.querySelector('#tipo').value;
     let dueño = document.querySelector('#propietario').value;
     let telefono = document.querySelector('#telefono').value;
-    let residencia =document.querySelector('#direccion').value;
+    let residencia = document.querySelector('#direccion').value;
     let nomMasco = document.querySelector('#nombreMascota').value;
-    let motivConsulta =document.querySelector('#enfermedad').value;
-    arregloVeterinaria.push(new Mascota(dueño,residencia,telefono,tiposAnimales,nomMasco, motivConsulta));
+    let motivConsulta = document.querySelector('#enfermedad').value;
+    arregloVeterinaria.push(new Mascota(dueño, residencia, telefono, tiposAnimales, nomMasco, motivConsulta));
     console.log(arregloVeterinaria[0].datosPropietario());
+    limpia(); 
+
 }
 
 
@@ -79,14 +79,28 @@ const agregarFilas = (arregloVeterinaria, cuerporesultado) => {
         const fila = document.createElement('ul');
         const filaUno = document.createElement('li');
         const filaDos = document.createElement('li');
-        const filaTres = document.createElement('li');
+        fila.setAttribute('id', `fila${index}`);
         filaUno.innerHTML = Mascota.datosPropietario();
         filaDos.innerHTML = `El tipo de animal es un : ${Mascota._tipo}, mientras que el nombre de la mascota es ${Mascota._nombreMas} y la enfermedad es : ${Mascota._enfermedad} `;
-        filaTres.innerHTML = '';   
         fila.appendChild(filaUno);
         fila.appendChild(filaDos);
-        fila.appendChild(filaTres);
 
         cuerporesultado.appendChild(fila);
     });
+}
+
+const eliminar = (arregloVeterinaria, cuerporesultado) => {
+    if (cuerporesultado.childElementCount >= 1) {
+        for (let i = 0; i < arregloVeterinaria.length - 1; i++) {
+            cuerporesultado.removeChild(document.querySelector(`#fila${i}`));
+        }
+    }
+}
+
+const limpia = () => {
+    document.getElementById("propietario").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("direccion").value = "";
+    document.getElementById("nombreMascota").value = "";
+    document.getElementById("enfermedad").value = "";
 }
